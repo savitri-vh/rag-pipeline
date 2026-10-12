@@ -1,0 +1,7 @@
+Anthropic is an AI safety company that builds reliable, interpretable, and steerable AI systems. The company was founded in 2021 by former members of OpenAI, including Dario Amodei and Daniela Amodei. Anthropic's flagship product is Claude, a family of large language models designed to be helpful, harmless, and honest.
+
+Anthropic conducts research into mechanistic interpretability, which aims to understand the internal workings of neural networks rather than treating them as black boxes. The company also pioneered Constitutional AI, a training method that uses a set of principles to guide model behavior instead of relying solely on human feedback for every judgment.
+
+Claude models are used across a range of applications, including customer support, coding assistance, research analysis, and content generation. Anthropic offers access to Claude through its consumer app, an API for developers, and enterprise integrations with platforms like Slack and Microsoft 365.
+
+Safety is central to Anthropic's mission. The company publishes research on topics such as scalable oversight, red-teaming, and alignment, and it has argued publicly for thoughtful regulation of frontier AI systems. Anthropic's Responsible Scaling Policy defines safety levels tied to model capability, with increasing precautions required as models become more capable.
