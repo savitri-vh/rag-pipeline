@@ -1,0 +1,31 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+          pip install pytest
+
+      - name: Run unit tests (chunker, embedder fallback — no network needed)
+        run: pytest tests/test_chunker.py tests/test_hashing_embedder.py -v
+
+      - name: Run end-to-end smoke test (downloads real embedding model)
+        run: pytest tests/test_pipeline_smoke.py -v
