@@ -4,3 +4,4 @@ pypdf>=4.2.0
 numpy>=1.26.0
 anthropic>=0.40.0
 tqdm>=4.66.0
+streamlit>=1.37.0
