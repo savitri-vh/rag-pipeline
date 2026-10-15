@@ -1,9 +1,37 @@
-# RAG Pipeline (from scratch)
+# RAG Pipeline — built from scratch
+
+**[🚀 Live demo](https://rag-pipeline-iad7e65glxriecxegc5xoe.streamlit.app/)** · [Source](https://github.com/savitri-vh/rag-pipeline)
 
 A minimal, modular Retrieval-Augmented Generation pipeline built with
-`sentence-transformers` + `FAISS` + the Anthropic API. No LangChain /
-LlamaIndex — every stage is plain Python so you can see and modify exactly
-what's happening.
+`sentence-transformers` + `FAISS` + the Anthropic API. **No LangChain or
+LlamaIndex** — every stage (load, chunk, embed, store, retrieve, generate)
+is plain, readable Python, so you can see and modify exactly what's
+happening at each step instead of trusting a framework's abstractions.
+
+## Why build this from scratch?
+
+Most RAG tutorials import a framework and call `.query()`. That's fast to
+ship but hides what's actually going on. I built this to understand — and
+be able to explain — every moving part of a RAG system:
+
+- How documents get **chunked** without breaking mid-sentence, and why
+  overlap between chunks matters for retrieval quality
+- How **embeddings** turn text into vectors, and why they're normalized
+  for cosine similarity search
+- How a **vector store** (FAISS) does nearest-neighbor search efficiently
+- How **citations are enforced through the prompt**, not bolted on after
+  the fact, so every claim in an answer traces back to a numbered source
+- What a RAG system looks like with **no LLM at all** — the pipeline has
+  an extractive fallback mode that proves retrieval works independently
+  of generation
+
+## Try it live
+
+The [demo](https://rag-pipeline-iad7e65glxriecxegc5xoe.streamlit.app/) runs
+this exact code: ask a question, see the generated (or extractive) answer,
+and expand each numbered source to see the retrieved passage and its
+similarity score. You can also upload your own `.txt`/`.md` file and query
+it directly.
 
 ## Pipeline stages
 
@@ -20,17 +48,28 @@ what's happening.
 ## Setup
 
 ```bash
+git clone https://github.com/savitri-vh/rag-pipeline.git
+cd rag-pipeline
+python -m venv venv
+source venv/bin/activate        # Windows: venv\Scripts\activate
 pip install -r requirements.txt
-export ANTHROPIC_API_KEY=sk-...   # optional — without it you get extractive fallback answers
+export ANTHROPIC_API_KEY=sk-...  # optional — without it you get extractive fallback answers
 ```
 
-## Run the demo
+## Run the CLI demo
 
 ```bash
 python main.py                              # ingests ./data, runs 3 sample questions
 python main.py --data_dir /path/to/docs      # ingest your own files
 python main.py --query "What is RAG?"        # single question
 python main.py --interactive                 # REPL
+```
+
+## Run the Streamlit UI locally
+
+```bash
+pip install streamlit
+streamlit run app.py
 ```
 
 ## Use it as a library
@@ -81,3 +120,16 @@ pipeline2.load_store("index/")
   noise/cost to the generation prompt.
 - `embedding_model` — swap to `BAAI/bge-base-en-v1.5` or `intfloat/e5-base-v2`
   for higher retrieval quality at higher latency/memory cost.
+
+## Testing
+
+```bash
+pip install pytest
+pytest
+```
+
+Runs on every push via GitHub Actions ([workflow](.github/workflows)).
+
+## License
+
+MIT — see [LICENSE](LICENSE).
